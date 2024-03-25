@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile</title>
+  <link rel="stylesheet" href="./styles/profile.css">
+</head>
+<body>
+  <div class="container">
+    <div class="profile">
+      <h1>My Profile</h1>
+      <div class="details">
+        <p><strong>Name:</strong> <span id="name"><%= profileDetails[0].first_name %></span></p>
+        <p><strong>Student ID:</strong> <span id="studentID"><%= profileDetails[0].student_id %></span></p>
+        <p><strong>Course:</strong> <span id="course"><%= profileDetails[0].course %></span></p>
+        <p><strong>College Email ID:</strong> <span id="email"><%= profileDetails[0].email %></span></p>
+        <p><strong>LinkedIn Profile:</strong> <span id="linkedin"><%= profileDetails[0].linkedin %></span></p>
+        <p><strong>Contact No:</strong> <span id="contact"><%= profileDetails[0].contact %></span></p>
+        <p><strong>Admission Year:</strong> <span id="admissionYear"><%= profileDetails[0].admission_year %></span></p>
+        <p><strong>Graduation Year:</strong> <span id="graduationYear"><%= profileDetails[0].end_year %></span></p>
+      </div>
+      <form action="/upgrade" method="get"><button id="upgradeBtn">Upgrade to Alumni</button></form>
+    </div>
+  </div>
+</body>
+</html>

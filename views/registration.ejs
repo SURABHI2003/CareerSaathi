@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat&family=Ubuntu:wght@300&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration Form</title>
+    <link rel="stylesheet" href="./styles/reg.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="form-container">
+            <h2 class="form-heading">Student Registration Form</h2>
+
+            <form action="/login" method="post" class="form">
+                <div class="form-group">
+                    <label for="fullName">Full Name:</label>
+                    <input type="text" id="fullName" name="fullName" class="login-form-field" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="studentID">Student ID:</label>
+                    <input type="text" id="studentID" name="studentID" class="login-form-field" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="course">Course:</label>
+                    <input type="text" id="course" name="course" class="login-form-field" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="collegeEmail">College Email ID:</label>
+                    <input type="email" id="collegeEmail" name="collegeEmail" class="login-form-field" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" class="login-form-field" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="linkedin">LinkedIn Profile URL:</label>
+                    <input type="text" id="linkedin" name="linkedin" class="login-form-field" required>
+                </div>
+                <div class="form-group">
+                    <label for="linkedin">Contact</label>
+                    <input type="text" id="contact" name="contact" class="login-form-field" required>
+                </div>
+                <div class="form-group">
+                    <label for="linkedin">Admission Year</label>
+                    <input type="text" id="adyr" name="adyr" class="login-form-field" required>
+                </div>
+                <div class="form-group">
+                    <label for="linkedin">Graduation Year</label>
+                    <input type="text" id="grayr" name="grayr" class="login-form-field" required>
+                </div>
+                <!-- <div class="form-group">
+                    <label for="linkedin">Date of Birth</label>
+                    <input type="text" id="contact" name="contact" class="login-form-field" required>
+                </div> -->
+                <input type="submit" value="Submit" class="submit-button">
+            </form>
+        </div>
+
+        <div class="image-container">
+            <img src="./assets/reg.png" alt="Image" class="background-image">
+        </div>
+    </div>
+
+</body>
+</html>

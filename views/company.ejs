@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/company.css"> <!-- Link to your CSS file -->
+    <title>Data Table</title>
+</head>
+<body>
+    <div class="header-container">
+        <h1 class="company-calendar-heading">Company Calendar</h1>
+    </div>
+    
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Year</th>
+                <th>Month</th>
+                <th>Info</th>
+                <th>Role</th>
+                <th>Website</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%  companies.forEach(company => { %>
+                <tr>
+                    <td><%= company.name %></td>
+                    <td><%= company.year %></td>
+                    <td><%= company.month %></td>
+                    <td><%= company.info %></td>
+                    <td><%= company.role %></td>
+                    <td><a href="<%= company.website %>" target="_blank">Visit Website</a></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>
+

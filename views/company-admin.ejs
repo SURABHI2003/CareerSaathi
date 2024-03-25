@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/company.css"> <!-- Link to your CSS file -->
+    <style>
+        /* Additional CSS for styling the button */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #3498db;
+            color: white;
+        }
+
+        .add-company-button {
+            padding: 10px;
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .add-company-button:hover {
+            background-color: #27ae60;
+        }
+    </style>
+    <title>Data Table</title>
+</head>
+<body>
+    <div class="header-container">
+        <h1 class="company-calendar-heading">Company Calendar</h1>
+        <!-- Add Company Details Button -->
+        <form action="/add-company" method="get"><button class="add-company-button">Add Company Details</button></form>
+    </div>
+    
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Year</th>
+                <th>Month</th>
+                <th>Info</th>
+                <th>Role</th>
+                <th>Website</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% companies.forEach(company => { %>
+                <tr>
+                    <td><%= company.name %></td>
+                    <td><%= company.year %></td>
+                    <td><%= company.month %></td>
+                    <td><%= company.info %></td>
+                    <td><%= company.role %></td>
+                    <td><a href="<%= company.website %>" target="_blank">Visit Website</a></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>

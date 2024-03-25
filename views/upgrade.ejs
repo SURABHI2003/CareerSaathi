@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upgrade</title>
+    <link rel="stylesheet" href="./styles/upgrade.css">
+    <script type="text/javascript"
+        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
+    </script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init({
+                publicKey: "Iv1TYAEeNDp7khTYC",
+            });
+        })();
+    </script>
+</head>
+<body>
+    <h1>Upgrade to Alumni</h1>
+    <div class="form-container">
+        <input type="text" id="otpInput" placeholder="Enter OTP">
+        <input type="email" id="emailInput" placeholder="Enter Personal Email">
+    </div>
+    <form action="/send-otp" method="get"><button id="otpButton">Click to Send OTP</button></form>
+    <form action="/submit-otp" method="post"><button id="submit-otp-email">Submit</button></form>
+</body>
+</html>
