@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/add-project.css">
+    <title>Project Information Form</title>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Project Information</h1>
+        <form action="/add-project-details" method="post">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" required></textarea>
+
+            <label for="githubLink">GitHub Link:</label>
+            <input type="text" id="githubLink" name="githubLink" required>
+
+            <label for="contributors">Contributors:</label>
+            <input type="text" id="contributors" name="contributors" placeholder="Comma-separated ids" required>
+
+            <label for="techStacks">Tech Stacks:</label>
+            <input type="text" id="techStacks" name="techStacks" placeholder="Comma-separated tech-stacks" required>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/show-project.css">
+    <title>Project Information</title>
+</head>
+<body>
+    <form action="/add-project" method="get"><button class="add-project-btn" onclick="location.href='/add-project'">Add New Project</button></form>
+
+    <table class="project-table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Tech Stacks</th>
+                <th>GitHub Link</th>
+                <th>Contributors</th>
+            </tr>
+        </thead>
+        <!-- ... (other parts of the HTML) ... -->
+
+<tbody>
+    <% projects.forEach((project) => { %>
+        <tr>
+            <td><%= project.name %></td>
+            <td><%= project.description %></td>
+            <td>
+                <ul>
+                    <% project.techStacks.forEach(element => { %>
+                        <li><%= element.name %></li>
+                    <% }) %>
+                </ul>
+            </td>
+            <td><a href="<%= project.github_link %>" target="_blank"><%= project.github_link %></a></td>
+            <td>
+                <ul>
+                    <% (project.contributorDetails ?? []).forEach((contributor) => { %>
+                        <li><a href="<%= contributor.linkedin %>" target="_blank"><%= contributor.first_name %></a></li>
+                    <% }) %>
+                </ul>
+            </td>
+            
+        </tr>
+    <% }) %>
+</tbody>
+
+    </table>
+      
+</body>
+</html>

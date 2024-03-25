@@ -1,0 +1,58 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.data-table {
+    max-width: 800px;
+    margin: 20px auto;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.data-table th, .data-table td {
+    border-bottom: 1px solid #ddd; /* Only bottom border for each cell */
+    padding: 10px;
+    text-align: center;
+}
+
+.data-table th {
+    background-color: #3498db;
+    color: #fff;
+    font-weight: bold;
+}
+
+.data-table td {
+    white-space: nowrap; /* Prevent data text from wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis for long data text */
+}
+
+.data-table td a {
+    text-decoration: none;
+    color: #3498db;
+    display: block; /* Ensure link takes up the full width of its container */
+    white-space: nowrap; /* Prevent link text from wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis for long link text */
+}
+
+/* Additional styles for the heading */
+body {
+    background-color: #f5f5f5;
+}
+
+.header-container {
+    text-align: center;
+    padding: 20px;
+    background-color: #3498db;
+    color: #fff;
+}
+
+.company-calendar-heading {
+    font-family: 'Arial', sans-serif;
+    font-size: 2.5em;
+    margin: 0;
+    letter-spacing: 2px;
+}

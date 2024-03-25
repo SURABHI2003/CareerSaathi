@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 100px; /* You can adjust the height as needed */
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <form action="/submit-report" method="post">
+        <h2>Report</h2>
+        <label for="subject">Subject:</label>
+        <input type="text" id="subject" name="subject" required>
+
+        <label for="concern">Concern:</label>
+        <textarea id="concern" name="concern" rows="5" required></textarea>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <div>
+        <% if (typeof successMessage !== 'undefined') { %>
+            <p style="color: green ;" ><%= successMessage %></p>
+        <% } else if (typeof errorMessage !== 'undefined') { %>
+            <p style="color: red;"><%= errorMessage %></p>
+        <% } %>
+    </div>
+</body>
+</html>

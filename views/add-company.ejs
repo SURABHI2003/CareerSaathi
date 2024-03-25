@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/add-company.css"> <!-- Link to your CSS file -->
+    <title>Data Table</title>
+</head>
+<!-- ... -->
+<body>
+    <div class="header-container">
+        <h1 class="company-calendar-heading">Company Calendar</h1>
+    </div>
+
+    <!-- Form for adding company details -->
+    <div class="form-container">
+        <form action="add-company-details" method="post">
+            <div class="form-group">
+                <label for="name" class="label">Name:</label>
+                <input type="text" id="name" name="name" class="input-field" required>
+            </div>
+
+            <div class="form-group">
+                <label for="year" class="label">Year:</label>
+                <input type="text" id="year" name="year" class="input-field" required>
+            </div>
+
+            <div class="form-group">
+                <label for="month" class="label">Month:</label>
+                <input type="text" id="month" name="month" class="input-field" required>
+            </div>
+
+            <div class="form-group">
+                <label for="info" class="label">Info:</label>
+                <textarea id="info" name="info" class="input-field" rows="4" required></textarea>
+            </div>
+
+            <div>
+                <label for="role" class="label">Role:</label>
+                <textarea name="role" id="role" class="input-field" rows="4" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="website" class="label">Website:</label>
+                <input type="url" id="website" name="website" class="input-field" required>
+            </div>
+
+            <button type="submit" class="submit-button">Submit</button>
+        </form>
+    </div>
+
+    <div>
+        <% if (typeof successMessage !== 'undefined') { %>
+            <p style="color: green ;" ><%= successMessage %></p>
+        <% } else if (typeof errorMessage !== 'undefined') { %>
+            <p style="color: red;"><%= errorMessage %></p>
+        <% } %>
+    </div>
+
+    <!-- Your existing data table goes here -->
+
+</body>
+<!-- ... -->
+
+</html>

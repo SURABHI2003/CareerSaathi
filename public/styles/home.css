@@ -1,0 +1,74 @@
+body {
+    font-family: Arial, sans-serif;
+    background: url("../assets/home.png") no-repeat right 200px fixed;
+    background-size: 50% auto;
+    
+}
+
+
+nav {
+    background-color: white;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav-links a {
+    color: black;
+    text-decoration: none;
+    padding: 10px;
+    margin: 0 5px;
+    display: inline-block;
+    font-size: 20px;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    margin: 100px;
+    margin-right: 0px;
+    margin-left: 250px;
+    width: 30%;
+}
+
+div.buttons button:hover {
+    cursor: pointer;
+    background-color: rgb(140, 170, 212);
+}
+
+div.buttons button {
+    width: 350px;
+    height: 60px;
+    border-radius: 100px;
+    margin: 20px;
+    background-color: #AFC3FE;
+    font-size: 18px;
+    border: none;
+    font-family: 'Poppins';
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    width: 60%;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    font-size: 50px;
+    font-family: 'Ubuntu';
+}
+
+.logo-container img {
+    height: 50px;
+    width: 50px;
+    margin-right: 10px;
+}
+
+.logo-container p {
+    color: black;
+    margin: 0;
+}
