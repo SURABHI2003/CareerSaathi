@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
+import { createTransport } from "nodemailer";
 //import emailjs from 'emailjs-com';
 
 const app = express();
@@ -31,6 +32,15 @@ const adminUser = "admin";
 const adminPass = "12345";
 let companyData;
 let currentOTP = 0;
+let details;
+
+let mt = createTransport({
+    service: "gmail",
+    auth: {
+        user: "surabhi.22203@gmail.com",
+        pass: "qhqn aece dbbr eeto"
+    }
+})
 
 async function getProjectDetails(p_id) {
     currentProjectID = p_id;
@@ -55,22 +65,22 @@ async function getCompanyData() {
     companyData = (await db.query("SELECT * FROM company")).rows;
 }
 
-async function sendMail() {
-    try {
-        const currentOTP = Math.floor(100000 + Math.random() * 900000);
-        const params = {
-            message: "Your OTP is: " + currentOTP
-        };
+// async function sendMail() {
+//     try {
+//         const currentOTP = Math.floor(100000 + Math.random() * 900000);
+//         const params = {
+//             message: "Your OTP is: " + currentOTP
+//         };
 
-        const serviceId = "service_k5jt0pl";
-        const templateId = "template_2gfgdcn";
+//         const serviceId = "service_k5jt0pl";
+//         const templateId = "template_2gfgdcn";
 
-        await emailjs.send(serviceId, templateId, params);
-        console.log("Email sent successfully");
-    } catch (error) {
-        console.error("Error sending email:", error);
-    }
-}
+//         await emailjs.send(serviceId, templateId, params);
+//         console.log("Email sent successfully");
+//     } catch (error) {
+//         console.error("Error sending email:", error);
+//     }
+// }
 
 app.get("/", async (req, res) => {
     res.render("identification.ejs");
@@ -282,7 +292,23 @@ app.get("/upgrade", async (req, res) => {
 });
 
 app.get("/send-otp", async (req, res) => {
-    await sendMail();
+    let generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+    let msg = "Your OTP is: " + generatedOtp;
+    details = {
+        from: "surabhi.22203@gmail.com",
+        to: "shreyasurabhi2003@gmail.com",
+        subject: "OTP",
+        text: msg
+    }
+
+    await mt.sendMail(details, (err) => {
+        if(err) {
+            console.log("It has this error: ", err);
+        }
+        else {
+            console.log("Email sent successfully!");
+        }
+    })
 });
 
 app.post("/submit-otp", async (req, res) => {

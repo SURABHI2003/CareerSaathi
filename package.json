@@ -1,5 +1,5 @@
 {
-  "name": "5-capstone---todo-list",
+  "name": "careersaathi",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -18,6 +18,7 @@
     "ejs": "^3.1.9",
     "emailjs-com": "^3.2.0",
     "express": "^4.18.2",
+    "nodemailer": "^6.9.13",
     "pg": "^8.11.3"
   }
 }
