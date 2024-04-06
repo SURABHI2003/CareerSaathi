@@ -4,9 +4,10 @@ body {
 }
 
 .project-table {
-    width: 100%;
+    width: 70%;
     border-collapse: collapse;
     margin-top: 20px;
+    margin-left: 350px;
 }
 
 .project-table th, .project-table td {
@@ -16,7 +17,8 @@ body {
 }
 
 .project-table th {
-    background-color: #f2f2f2;
+    background-color: #6185db;
+    color: white;
 }
 
 a {
@@ -28,7 +30,6 @@ a:hover {
     text-decoration: underline;
 }
 
-/* New styles for the "Add New Project" button */
 .add-project-btn {
     background-color: #28a745;
     color: #fff;
@@ -36,9 +37,25 @@ a:hover {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-bottom: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-left: 350px;
 }
 
 .add-project-btn:hover {
     background-color: #218838;
+}
+
+.company-calendar-heading {
+    font-family: 'Arial', sans-serif;
+    font-size: 2.5em;
+    margin: 0;
+    letter-spacing: 2px;
+}
+
+.header-container {
+    text-align: center;
+    padding: 20px;
+    background-color: #6185db;
+    color: #fff;
 }

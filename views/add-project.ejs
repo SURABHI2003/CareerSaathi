@@ -7,8 +7,12 @@
     <title>Project Information Form</title>
 </head>
 <body>
+    <div id="header"></div>
+    <div id="side"></div>
+    <div class="header-container">
+        <h1 class="company-calendar-heading">Project Details</h1>
+    </div>
     <div class="form-container">
-        <h1>Project Information</h1>
         <form action="/add-project-details" method="post">
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required>
@@ -25,8 +29,23 @@
             <label for="techStacks">Tech Stacks:</label>
             <input type="text" id="techStacks" name="techStacks" placeholder="Comma-separated tech-stacks" required>
 
-            <button type="submit">Submit</button>
+            <button type="submit" class="add-project-btn">Submit</button>
         </form>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function(){
+            $.get('/navbar', function(data){
+                $('#header').html(data);
+            });
+        });
+    </script>
+     <script>
+        $(function(){
+            $.get('/side', function(data){
+                $('#side').html(data);
+            });
+        });
+    </script>
 </body>
 </html>

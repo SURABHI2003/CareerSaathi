@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Display</title>
+    <link rel="stylesheet" href="./styles/show-resource.css"> 
+</head>
+<body>
+    <h1>Student Data</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Course</th>
+                <th>Graduation Year</th>
+                <th>Role</th>
+                <th>Company</th>
+                <th>Selection Process & Experience</th>
+                <th>Resources</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% data.forEach(function(student) { %>
+                <tr>
+                    <td><%= student.name %></td>
+                    <td><%= student.course %></td>
+                    <td><%= student.graduationYear %></td>
+                    <td><%= student.role %></td>
+                    <td><%= student.company %></td>
+                    <td><%= student.selectionProcessExperience %></td>
+                    <td>
+                        <ul>
+                            <% student.resources.forEach(function(resource) { %>
+                                <li><a href="/download/<%= resource.fileName %>"><%= resource.name %></a></li>
+                            <% }) %>
+                        </ul>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</body>
+</html>

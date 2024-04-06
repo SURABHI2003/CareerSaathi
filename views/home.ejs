@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,13 +11,12 @@
     <link rel="stylesheet" href="./styles/home.css">
     
 </head>
-<body background="./assets/home.png">
+<body background="./assets/home.jpg">
     <nav class="navbar">
         <div class="logo-container">
             <p>CareerSAATHI</p> 
         </div>
         <div class="nav-links">
-            <a href="#" class="link">Resources</a>
             <a href="/report" class="link">Report</a>
             <a href="/profile" class="link">My Profile</a>
         </div>
@@ -27,9 +26,53 @@
             <button>Generate Resume</button>
             <form action="/show-project" method="get"><button type="submit">Project Section</button></form>
             <form action="/calendar" method="get"><button type="submit">Company Calendar</button></form>
-            <button>Alumni Connect</button>
+            <form action="/alumni-connect" method="get"><button type="submit">Alumni Connect</button></form>
+            <form action="/resources" method="get"><button type="submit">Resources</button></form>
         </div>
         
     </div>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&family=Ubuntu&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./styles/landing-page.css">
+
+</head>
+<body >
+    <div id="header"></div>
+    <div id="side"></div>
+    <div class="wrapper">
+        <div id="header"></div>
+        <div id="side"></div>
+        <div class="content">
+            <h1 class="logo">CareerSAATHI</h1>
+        </div>
+
+    </div>
+    
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script>
+        $(function(){
+            $.get('/navbar', function(data){
+                $('#header').html(data);
+            });
+        });
+    </script>
+     <script>
+        $(function(){
+            $.get('/side', function(data){
+                $('#side').html(data);
+            });
+        });
+    </script>
 </body>
 </html>

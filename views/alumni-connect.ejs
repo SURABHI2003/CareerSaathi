@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Connect</title>
+    <link rel="stylesheet" href="/styles/alumni-connect.css">
+    <style>
+        /* Additional CSS for heading */
+        .heading {
+            text-align: center;
+            margin-top: 20px; /* Adjust the margin as needed */
+        }
+
+        .filter-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .filter-input {
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+<body>
+    <div id="header"></div>
+    <div id="side"></div>
+    <div class="header-container">
+        <h1 class="company-calendar-heading">Alumni Connect</h1>
+    </div>
+
+    <div class="filter-container">
+        <form action="/filter-alumni" method="post">
+            <label for="companyFilter">Filter by Company:</label>
+            <input type="text" id="companyFilter" class="filter-input" name = "company_filter" placeholder="Enter company name">
+
+            <label for="yearFilter">Filter by Graduation Year:</label>
+            <input type="text" id="companyFilter" class="filter-input" name = "year_filter" placeholder="Enter Graduation Year">
+
+            <button class="add-project-btn">Filter</button>
+        </form>
+    </div>
+
+    <% if (alumni && alumni.length > 0) { %>
+        <div class="container">
+            <% alumni.forEach(function(alum) { %>
+                <div class="card">
+                    <h2><%= alum.first_name %></h2>
+                    <p><strong>Course:</strong> <%= alum.course %></p>
+                    <p><strong>Graduation Year:</strong> <%= alum.end_year %></p>
+                    <p><strong>Company:</strong> <%= alum.company %></p>
+                    <p><a href="<%= alum.linkedin %>" target="_blank">Linkedin Profile</a></p>
+                </div>
+            <% }) %>
+        </div>
+    <% } else { %>
+        <p>No alumni data available</p>
+    <% } %>
+
+    <script>
+        function filterAlumni() {
+            var input, filter, container, cards, card, company, i;
+            input = document.getElementById('companyFilter');
+            filter = input.value.toUpperCase();
+            container = document.querySelector('.container');
+            cards = container.getElementsByClassName('card');
+            for (i = 0; i < cards.length; i++) {
+                card = cards[i];
+                company = card.getElementsByTagName("strong")[0];
+                if (company.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    card.style.display = "";
+                } else {
+                    card.style.display = "none";
+                }
+            }
+        }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function(){
+            $.get('/navbar', function(data){
+                $('#header').html(data);
+            });
+        });
+    </script>
+     <script>
+        $(function(){
+            $.get('/side', function(data){
+                $('#side').html(data);
+            });
+        });
+    </script>
+</body>
+</html>

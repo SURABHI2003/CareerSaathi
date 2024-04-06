@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Form</title>
+    <link rel="stylesheet" href="/styles/add-resource.css">
+    <style>
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .form-group label,
+        .form-group input,
+        .form-group textarea {
+            width: calc(50% - 10px); /* Adjust width as needed */
+        }
+
+        #experience {
+            height: 100px; /* Set height of experience textarea */
+            resize: vertical; /* Allow vertical resizing */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Input Form</h1>
+        <form action="/upload-resource" method="post" id="uploadForm" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="role">Role:</label>
+                <input type="text" id="role" name="role" required>
+            </div>
+            <div class="form-group">
+                <label for="company">Company:</label>
+                <input type="text" id="company" name="company" required>
+            </div>
+            <div class="form-group">
+                <label for="experience">Experience:</label>
+                <textarea id="experience" name="experience" rows="5" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="files">Upload Files:</label>
+                <input type="file" id="files" name="files" multiple>
+            </div>
+            <div id="selectedFiles">
+                <h2>Selected Files:</h2>
+                <ul id="fileList"></ul>
+            </div>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('files').addEventListener('change', function(event) {
+            const fileList = document.getElementById('fileList');
+            fileList.innerHTML = ''; // Clear previous list
+
+            const files = event.target.files;
+            for (let i = 0; i < files.length; i++) {
+                const listItem = document.createElement('li');
+                listItem.textContent = files[i].name; // Display file name
+                fileList.appendChild(listItem);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <style>
+        body{
+            font-family: 'Roboto', sans-serif;
+        }
+        *{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+        }
+        .sidebar{
+            position: fixed;
+            left:0;
+            width: 250px;
+            height: 100%;
+            background-color: #9bb2f9;
+        }
+        .sidebar ul button{
+            margin-left: 0px;
+            display: block;
+            height: 100%;
+            width:100%;
+            line-height: 65px;
+            font-size: 20px;
+            color: rgb(243, 239, 246); /* Set text color to black */
+            padding-left: 40px;
+            box-sizing: border-box;
+            border-style: none;
+            background-color: #acc0f9; 
+        }
+        ul li:hover button{
+            padding-left: 50px;
+            transition: .4s;
+            background-color: #9bb2f9; /* Change background color to red on hover */
+        }
+        .sidebar ul button i{
+            margin-right: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <ul>
+            <li><form action="/navigate-student-home" method="get"><button type="submit">Home</button></form></li>
+            
+            <li><form action="/generate-resume" method="get"><button type="submit">Generate Resume</button></form></li>
+            <li><form action="/show-project" method="get"><button type="submit">Project Section</button></form></li>
+            <li><form action="/calendar" method="get"><button type="submit">Company Calendar</button></form></li>
+            <li><form action="/alumni-connect" method="get"><button type="submit">Alumni Connect</button></form></li>
+            <li><form action="/resources" method="get"><button type="submit">Resources</button></form></li> 
+        </ul>
+    </div>
+</body>
+</html>

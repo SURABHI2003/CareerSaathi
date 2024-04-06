@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -57,10 +57,6 @@
                     <label for="linkedin">Graduation Year</label>
                     <input type="text" id="grayr" name="grayr" class="login-form-field" required>
                 </div>
-                <!-- <div class="form-group">
-                    <label for="linkedin">Date of Birth</label>
-                    <input type="text" id="contact" name="contact" class="login-form-field" required>
-                </div> -->
                 <input type="submit" value="Submit" class="submit-button">
             </form>
         </div>
@@ -69,6 +65,97 @@
             <img src="./assets/reg.png" alt="Image" class="background-image">
         </div>
     </div>
+
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./styles/reg.css">
+</head>
+<body>
+    <div class="cont">
+        <div id="header"></div>    
+        <div class="container">
+            <div class="title">Registration</div>
+            <form action="#">
+                <div class="user-details">
+                    <div class="user-details">
+                        <div class="input-box">
+                            <span class="details">Full Name</span>
+                            <input type="text" placeholder="Enter your name" pattern="[A-Za-z\s]+" title="Please enter only alphabets" required>
+                        </div>
+                        
+                        <div class="input-box">
+                            <span class="details">Student ID</span>
+                            <input type="text" placeholder="Enter your Student ID" pattern="[A-Za-z]{5}[0-9]{5}" title="Student ID must be 5 letters followed by 5 numbers" required>
+                          </div>
+                          
+                        <div class="input-box">
+                            <span class="details">Course</span>
+                            <input type="text" placeholder="Enter your Course" required>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">College Email ID</span>
+                            <input type="email" placeholder="Enter your Email ID" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" title="Please enter a valid email address" required>
+                          </div>                          
+                        
+                        <div class="input-box">
+                            <span class="details" id="password">Password</span>
+                            <input type="password" placeholder="6-10 char long; atleast one letter, digit" pattern="^(?=.[A-Za-z])(?=.\d)[A-Za-z\d]{6,10}$" title="Password must be 6-10 characters long and contain at least one letter and one number" required>
+                        </div>
+                          
+                        
+                        <div class="input-box">
+                            <span class="details">LinkedIn Profile URL</span>
+                            <input type="text" placeholder="Enter your LinkedIn Profile URL" required>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Confirm Password</span>
+                            <input type="password" id="confirm-password" placeholder="Confirm your Password" required>
+                            <span id="confirm-password-error" style="color: red; display: none;">Passwords do not match</span>
+
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Contact Number</span>
+                            <input type="text" placeholder="Enter your Contact Number" pattern="\d{10}" title="Contact number must be 10 digits" required>
+                          </div>
+                          
+                        <div class="input-box">
+                            <span class="details">Admission Year</span>
+                            <input type="text" placeholder="Enter your Admission Year" pattern="\d{4}" title="Please enter a 4-digit year" required>
+                        </div>
+                        <div class="input-box">
+                            <span class="details">Graduation Year</span>
+                            <input type="text" placeholder="Enter your Graduation Year" pattern="\d{4}" title="Please enter a 4-digit year" required>
+                        </div>
+                        
+                        
+                        
+                    </div>
+                </div>
+                
+                <form action="student-register" method="post">
+                    <button class="regb" type="submit">Register</button>
+                </form>
+            </form>
+        </div>
+        
+</div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+<script>
+    $(function(){
+            $.get('/navbar-reg', function(data){
+                $('#header').html(data);
+            });
+        });
+</script>
 
 </body>
 </html>

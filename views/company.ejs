@@ -7,6 +7,8 @@
     <title>Data Table</title>
 </head>
 <body>
+    <div id="header"></div>
+    <div id="side"></div>
     <div class="header-container">
         <h1 class="company-calendar-heading">Company Calendar</h1>
     </div>
@@ -35,6 +37,21 @@
             <% }); %>
         </tbody>
     </table>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function(){
+            $.get('/navbar', function(data){
+                $('#header').html(data);
+            });
+        });
+    </script>
+     <script>
+        $(function(){
+            $.get('/side', function(data){
+                $('#side').html(data);
+            });
+        });
+    </script>
 </body>
 </html>
 

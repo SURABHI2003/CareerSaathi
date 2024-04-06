@@ -7,6 +7,13 @@
     <title>Project Information</title>
 </head>
 <body>
+    <div id="header"></div>
+    <div id="side"></div>
+    <div class="header-container">
+        <h1 class="company-calendar-heading">Projects</h1>
+    </div>
+
+
     <form action="/add-project" method="get"><button class="add-project-btn" onclick="location.href='/add-project'">Add New Project</button></form>
 
     <table class="project-table">
@@ -19,34 +26,45 @@
                 <th>Contributors</th>
             </tr>
         </thead>
-        <!-- ... (other parts of the HTML) ... -->
-
-<tbody>
-    <% projects.forEach((project) => { %>
-        <tr>
-            <td><%= project.name %></td>
-            <td><%= project.description %></td>
-            <td>
-                <ul>
-                    <% project.techStacks.forEach(element => { %>
-                        <li><%= element.name %></li>
-                    <% }) %>
-                </ul>
-            </td>
-            <td><a href="<%= project.github_link %>" target="_blank"><%= project.github_link %></a></td>
-            <td>
-                <ul>
-                    <% (project.contributorDetails ?? []).forEach((contributor) => { %>
-                        <li><a href="<%= contributor.linkedin %>" target="_blank"><%= contributor.first_name %></a></li>
-                    <% }) %>
-                </ul>
-            </td>
-            
-        </tr>
-    <% }) %>
-</tbody>
-
+        <tbody>
+            <% projects.forEach((project) => { %>
+                <tr>
+                    <td><%= project.name %></td>
+                    <td><%= project.description %></td>
+                    <td>
+                        <ul>
+                            <% project.techStacks.forEach(element => { %>
+                                <li><%= element.name %></li>
+                            <% }) %>
+                        </ul>
+                    </td>
+                    <td><a href="<%= project.github_link %>" target="_blank"><%= project.github_link %></a></td>
+                    <td>
+                        <ul>
+                            <% (project.contributorDetails ?? []).forEach((contributor) => { %>
+                                <li><a href="<%= contributor.linkedin %>" target="_blank"><%= contributor.first_name %></a></li>
+                            <% }) %>
+                        </ul>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
     </table>
-      
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function(){
+            $.get('/navbar', function(data){
+                $('#header').html(data);
+            });
+        });
+    </script>
+     <script>
+        $(function(){
+            $.get('/side', function(data){
+                $('#side').html(data);
+            });
+        });
+    </script>
 </body>
 </html>

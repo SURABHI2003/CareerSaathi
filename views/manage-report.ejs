@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./styles/show-report.css">
+    <title>Reports</title>
+</head>
+<body>
+    <h1>Reports</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Concern</th>
+                <th>Complainant</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% reports.forEach(report => { %>
+                <tr>
+                    <td><%= report.subject %></td>
+                    <td><%= report.concern %></td>
+                    <td><%= report.student_id %></td>
+                    <td>
+                            <form action="/update-status" method="post">
+                                <input type="hidden" name="id" value="<%= report.id %>">
+                                <button type="submit">Solved</button>
+                            </form>
+                    </td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+</body>
+</html>

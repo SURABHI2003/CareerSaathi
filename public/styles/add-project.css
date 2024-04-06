@@ -28,13 +28,34 @@ textarea {
     width: 100%;
 }
 
-button {
-    background-color: #007BFF;
+
+
+.header-container {
+    text-align: center;
+    padding: 20px;
+    background-color: #6185db;
     color: #fff;
-    padding: 10px;
-    cursor: pointer;
+    width: 100%;
 }
 
-button:hover {
-    background-color: #0056b3;
+.company-calendar-heading {
+    font-family: 'Arial', sans-serif;
+    font-size: 2.5em;
+    margin: 0;
+    letter-spacing: 2px;
+}
+
+
+.add-project-btn {
+    background-color: #28a745;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100px;
+}
+
+.add-project-btn:hover {
+    background-color: #218838;
 }

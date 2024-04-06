@@ -2,7 +2,9 @@ import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
 import { createTransport } from "nodemailer";
-//import emailjs from 'emailjs-com';
+import multer from "multer";
+import fs from 'fs';
+
 
 const app = express();
 const port = 3000;
@@ -14,8 +16,6 @@ const db = new pg.Client({
   password: "surabhi",
   port: 5432,
 });
-
-//emailjs.init("btbti20138_surabhi@banasthali.in");
 
 db.connect();
 
@@ -31,8 +31,8 @@ let contributorDetails;
 const adminUser = "admin";
 const adminPass = "12345";
 let companyData;
-let currentOTP = 0;
 let details;
+let generatedOtp;
 
 let mt = createTransport({
     service: "gmail",
@@ -40,7 +40,18 @@ let mt = createTransport({
         user: "surabhi.22203@gmail.com",
         pass: "qhqn aece dbbr eeto"
     }
-})
+});
+
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+      cb(null, 'uploads/') // Save uploaded files to the "uploads" directory
+    },
+    filename: function (req, file, cb) {
+      cb(null, file.originalname) // Keep the original file name
+    }
+});
+
+const upload = multer({ storage: storage });
 
 async function getProjectDetails(p_id) {
     currentProjectID = p_id;
@@ -65,26 +76,30 @@ async function getCompanyData() {
     companyData = (await db.query("SELECT * FROM company")).rows;
 }
 
-// async function sendMail() {
-//     try {
-//         const currentOTP = Math.floor(100000 + Math.random() * 900000);
-//         const params = {
-//             message: "Your OTP is: " + currentOTP
-//         };
-
-//         const serviceId = "service_k5jt0pl";
-//         const templateId = "template_2gfgdcn";
-
-//         await emailjs.send(serviceId, templateId, params);
-//         console.log("Email sent successfully");
-//     } catch (error) {
-//         console.error("Error sending email:", error);
-//     }
-// }
-
 app.get("/", async (req, res) => {
-    res.render("identification.ejs");
+    res.render("landing-page.ejs");
 });
+
+app.get('/navbar', (req, res) => {
+    res.render('navbar.ejs');
+});
+
+app.get('/navbar-reg', (req, res) => {
+    res.render('reg-navbar.ejs');
+});
+
+app.get('/landing-navbar', (req, res) => {
+    res.render('landing-navbar.ejs');
+});
+
+app.get('/side', (req, res) => {
+    res.render('menu-student.ejs');
+});
+
+app.get('/landing-login', (req, res) => {
+    res.render('identification.ejs');
+});
+
 
 app.post("/student-login", async (req, res) => {
   res.render("login.ejs");
@@ -93,6 +108,11 @@ app.post("/student-login", async (req, res) => {
 app.post("/student-register", async (req, res) => {
     res.render("registration.ejs");
 });
+
+app.get("/navigate-student-home", async (req, res) => {
+    res.render("home.ejs");
+});
+
 
 app.post("/login", async (req, res) => {
     const n1 = req.body.fullName;
@@ -251,7 +271,7 @@ app.get("/manage-company", async (req, res) => {
 
 app.get("/add-company", async (req, res) => {
     await getCompanyData();
-    console.log(companyData);
+    //console.log(companyData);
     res.render("add-company.ejs", {
         companies: companyData,
     });
@@ -280,19 +300,26 @@ app.post("/add-company-details", async (req, res) => {
 
 app.get("/profile", async (req, res) => {
     const data = (await db.query("SELECT * FROM student WHERE student_id = $1", [currentStudentID])).rows;
-    //console.log(currentStudentID);
-    console.log(data);
+    //console.log(data);
     res.render("profile.ejs", {
         profileDetails: data,
     });
 });
 
 app.get("/upgrade", async (req, res) => {
-    res.render("upgrade.ejs");
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    const pass_out_year = await db.query("SELECT end_year FROM student WHERE student_id = $1", [currentStudentID]);
+    if(currentYear >= pass_out_year) {
+        res.render("upgrade.ejs");
+    }
+    else {
+        console.log("It's not your passing out year still kid!")
+    }
 });
 
 app.get("/send-otp", async (req, res) => {
-    let generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+    generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
     let msg = "Your OTP is: " + generatedOtp;
     details = {
         from: "surabhi.22203@gmail.com",
@@ -312,7 +339,19 @@ app.get("/send-otp", async (req, res) => {
 });
 
 app.post("/submit-otp", async (req, res) => {
-    
+    console.log(currentStudentID);
+    console.log("Right otp: " + generatedOtp);
+    console.log("Entered otp: " + req.body.otp);
+    console.log(req.body.email);
+    if(req.body.otp == generatedOtp) {
+        console.log(currentStudentID);
+        await db.query("INSERT INTO alumni(student_id, personal_email) VALUES ($1, $2)", [currentStudentID, req.body.email]);
+        message = "Profile succesfully upgraded!"
+    }
+    else {
+        message = "Wrong OTP entered!"
+    }
+    console.log(message);
 });
 
 app.get("/generate-resume", async (req, res) => {
@@ -322,6 +361,103 @@ app.get("/generate-resume", async (req, res) => {
 app.get("/create-resume", async (req, res) => {
     res.render("resume.ejs");
 });
+
+app.get("/alumni-login", async (req, res) => {
+    res.render("alumni-login.ejs");
+});
+
+app.post("/home-alumni", async (req, res) => {
+    const e = req.body.email;
+    const data = (await db.query("SELECT student.pswd, student.student_id FROM student INNER JOIN alumni ON student.student_id = alumni.student_id WHERE alumni.personal_email = $1", [e])).rows[0];
+    if(data.pswd == req.body.password) {
+        currentStudentID = data.student_id;
+        res.render("home-alumni.ejs");
+    }
+    else {
+        res.render("alumni-login.ejs");
+    }
+});
+
+app.get("/manage-reports", async (req, res) => {
+    const reports = (await db.query("SELECT * FROM report WHERE status = $1", ['P'])).rows;
+    res.render("manage-report.ejs", {
+        reports: reports,
+    });
+});
+
+app.post("/update-status", async (req, res) => {
+    await db.query("UPDATE report SET status = $1 WHERE id = $2", ['R', req.body.id]);
+    const reports = (await db.query("SELECT * FROM report WHERE status = $1", ['P'])).rows;
+    console.log(reports);
+    res.render("manage-report.ejs", {
+        reports: reports,
+    });
+});
+
+app.get("/resources", async (req, res) => {
+    res.render("show-resource.ejs");
+});
+
+app.get("/alumni-connect", async (req, res) => {
+    const company_alumni = (await db.query("SELECT s.first_name, s.course, s.end_year, s.linkedin, sc.company FROM alumni a JOIN student s ON a.student_id = s.student_id JOIN student_company sc ON a.student_id = sc.student_id")).rows;
+    //console.log(company_alumni);
+    res.render("alumni-connect.ejs", {
+        alumni: company_alumni,
+    });
+});
+
+app.post("/filter-alumni", async(req, res) => {
+    const desired_company = req.body.company_filter;
+    const year = req.body.year_filter;
+
+    if(desired_company && year) {
+        const company_alumni = (await db.query("SELECT s.first_name, s.course, s.end_year, s.linkedin, sc.company FROM alumni a JOIN student s ON a.student_id = s.student_id JOIN student_company sc ON a.student_id = sc.student_id WHERE sc.company = $1 AND s.end_year = $2", [desired_company, year])).rows;
+        res.render("alumni-connect.ejs", {
+            alumni: company_alumni,
+        });
+    }
+    else if(year) {
+        const company_alumni = (await db.query("SELECT s.first_name, s.course, s.end_year, s.linkedin, sc.company FROM alumni a JOIN student s ON a.student_id = s.student_id JOIN student_company sc ON a.student_id = sc.student_id WHERE s.end_year = $1", [year])).rows;
+        res.render("alumni-connect.ejs", {
+            alumni: company_alumni,
+        });
+    }
+    else if(desired_company) {
+        const company_alumni = (await db.query("SELECT s.first_name, s.course, s.end_year, s.linkedin, sc.company FROM alumni a JOIN student s ON a.student_id = s.student_id JOIN student_company sc ON a.student_id = sc.student_id WHERE sc.company = $1", [desired_company])).rows;
+        res.render("alumni-connect.ejs", {
+            alumni: company_alumni,
+        });
+    }
+    else {
+        const company_alumni = (await db.query("SELECT s.first_name, s.course, s.end_year, s.linkedin, sc.company FROM alumni a JOIN student s ON a.student_id = s.student_id JOIN student_company sc ON a.student_id = sc.student_id")).rows;
+        res.render("alumni-connect.ejs", {
+            alumni: company_alumni,
+        });
+    }
+});
+
+app.post('/upload-resource', upload.array('files'), async (req, res) => {
+    try {
+        const role = req.body.role;
+        const company = req.body.company;
+        const exp = req.body.experience;
+
+        let data = await db.query("INSERT INTO resource(student_id, role, company, experience) VALUES ($1, $2, $3, $4) RETURNING resource_id", [currentStudentID, role, company, exp]);
+        let id = data.rows[0].resource_id
+
+      for (const file of req.files) {
+        console.log(file.originalname);
+        const fileData = fs.readFileSync(file.path); 
+        const query = 'INSERT INTO resource_document (resource_id, document_name, document) VALUES ($1, $2, $3)';
+        await db.query(query, [id, file.originalname, fileData]); 
+      }
+      
+      res.send('Files uploaded and inserted into the database successfully');
+    } catch (error) {
+      console.error('Error:', error);
+      res.status(500).send('Internal Server Error');
+    }
+  });
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
