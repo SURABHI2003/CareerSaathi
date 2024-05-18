@@ -12,6 +12,10 @@
             box-sizing: border-box; /* Include padding and border in the element's total width and height */
         }
 
+        #navbar {
+    width: 100%;
+}
+
         body {
             background-color: white;
             font-family: 'Poppins', sans-serif;
@@ -54,10 +58,24 @@
     <nav class="navbar">
         <div class="logo-container">
             <p>Banasthali Vidyapith</p> 
+            <% if (isAlumni) { %>
+                Alumni
+            <% } %>
+            <% if (isStudent) { %>
+                Student
+            <% } %>
+            <% if (isAdmin) { %>
+                Admin
+            <% } %>
         </div>
         <div class="nav-links">
+            <% if (!isAdmin) { %>
             <a href="/report" class="link">Report</a>
+            <% } %>
+            <a href="/logout" class="link">Logout</a>
+            <% if (!isAdmin) { %>
             <a href="/profile" class="link">My Profile</a>
+            <% } %>
         </div>
     </nav>
 </body>

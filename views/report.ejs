@@ -7,11 +7,11 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
         }
-        form {
+        .report-form {
             max-width: 400px;
             margin: 0 auto;
+            margin-top: 50px;
         }
         label {
             display: block;
@@ -56,7 +56,7 @@
     <div class="header-container">
         <h1 class="company-calendar-heading">Report</h1>
     </div>
-    <form action="/submit-report" method="post">
+    <form action="/submit-report" method="post" class="report-form">
         <label for="subject">Subject:</label>
         <input type="text" id="subject" name="subject" required>
 

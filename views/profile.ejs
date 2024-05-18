@@ -6,22 +6,68 @@
   <title>My Profile</title>
   <link rel="stylesheet" href="./styles/profile.css">
 </head>
+<style>
+  .header-c {
+    text-align: center;
+    padding: 20px;
+    background-color: #6185db;
+    color: #fff;
+    width: 100%;
+}
+
+.company-calendar-heading {
+    font-family: 'Arial', sans-serif;
+    font-size: 2.5em;
+    margin: 0;
+    letter-spacing: 2px;
+    margin-left: 100px;
+}
+</style>
 <body>
+  <div id="header"></div>
+    <div id="side"></div>
+    <div class="header-c">
+        <h1 class="company-calendar-heading">My Profile</h1>
+    </div>
   <div class="container">
     <div class="profile">
-      <h1>My Profile</h1>
+     
       <div class="details">
         <p><strong>Name:</strong> <span id="name"><%= profileDetails[0].first_name %></span></p>
         <p><strong>Student ID:</strong> <span id="studentID"><%= profileDetails[0].student_id %></span></p>
         <p><strong>Course:</strong> <span id="course"><%= profileDetails[0].course %></span></p>
-        <p><strong>College Email ID:</strong> <span id="email"><%= profileDetails[0].email %></span></p>
+        <p><strong>College Email ID:</strong> <span id="email"><%= profileDetails[0].college_email %></span></p>
         <p><strong>LinkedIn Profile:</strong> <span id="linkedin"><%= profileDetails[0].linkedin %></span></p>
         <p><strong>Contact No:</strong> <span id="contact"><%= profileDetails[0].contact %></span></p>
         <p><strong>Admission Year:</strong> <span id="admissionYear"><%= profileDetails[0].admission_year %></span></p>
         <p><strong>Graduation Year:</strong> <span id="graduationYear"><%= profileDetails[0].end_year %></span></p>
       </div>
-      <form action="/upgrade" method="get"><button id="upgradeBtn">Upgrade to Alumni</button></form>
+      <% if (isStudent) { %>
+        <form action="/upgrade" method="get"><button id="upgradeBtn">Upgrade to Alumni</button></form>
+    <% } %>
     </div>
   </div>
+  <div>
+    <% if (typeof successMessage !== 'undefined') { %>
+        <p style="color: green ;" ><%= successMessage %></p>
+    <% } else if (typeof errorMessage !== 'undefined') { %>
+        <p style="color: red;"><%= errorMessage %></p>
+    <% } %>
+</div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function(){
+            $.get('/navbar', function(data){
+                $('#header').html(data);
+            });
+        });
+    </script>
+     <script>
+        $(function(){
+            $.get('/side', function(data){
+                $('#side').html(data);
+            });
+        });
+    </script>
 </body>
 </html>

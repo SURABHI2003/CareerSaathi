@@ -5,9 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./styles/show-report.css">
     <title>Reports</title>
+    <style>
+        .header-container {
+    text-align: center;
+    padding: 20px;
+    background-color: #6185db;
+    color: #fff;
+    width: 100%;
+}
+
+.company-calendar-heading {
+    font-family: 'Arial', sans-serif;
+    font-size: 2.5em;
+    margin: 0;
+    letter-spacing: 2px;
+}
+
+table {
+    width: 50%;
+    margin-left: 450px;
+}
+    </style>
 </head>
 <body>
-    <h1>Reports</h1>
+    <div id="header"></div>
+    <div id="side"></div>
+    <div class="header-container">
+        <h1 class="company-calendar-heading">Manage Reports</h1>
+    </div>
     <table>
         <thead>
             <tr>
@@ -33,5 +58,20 @@
             <% }); %>
         </tbody>
     </table>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function(){
+            $.get('/navbar', function(data){
+                $('#header').html(data);
+            });
+        });
+    </script>
+     <script>
+        $(function(){
+            $.get('/side', function(data){
+                $('#side').html(data);
+            });
+        });
+    </script>
 </body>
 </html>

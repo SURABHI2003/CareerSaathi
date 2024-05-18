@@ -43,18 +43,45 @@
         .sidebar ul button i{
             margin-right: 16px;
         }
+
+        a {
+    color: inherit;
+    text-decoration: none;
+}
+
     </style>
 </head>
 <body>
     <div class="sidebar">
         <ul>
             <li><form action="/navigate-student-home" method="get"><button type="submit">Home</button></form></li>
-            
-            <li><form action="/generate-resume" method="get"><button type="submit">Generate Resume</button></form></li>
+            <% if (isStudent) { %>
+                <li><form><button type="submit"><a href="https://luxury-kleicha-c182a5.netlify.app/" target="_blank">Generate Resume</a></button></form></li>
+            <% } %>
+
+            <% if (isStudent || isAlumni) { %>
             <li><form action="/show-project" method="get"><button type="submit">Project Section</button></form></li>
+            <% } %>
+
+            <% if (!isAdmin) { %>
             <li><form action="/calendar" method="get"><button type="submit">Company Calendar</button></form></li>
+            <% } %>
+            <% if (isStudent) { %>
             <li><form action="/alumni-connect" method="get"><button type="submit">Alumni Connect</button></form></li>
+            <% } %>
+
+            <% if (isStudent || isAlumni) { %>
             <li><form action="/resources" method="get"><button type="submit">Resources</button></form></li> 
+            <% } %>
+
+            <% if (isAdmin) { %>
+            <li><form action="/manage-company" method="get"> <button type="submit">Manage Company Data</button></form></li>
+            <% } %>
+
+            <% if (isAdmin) { %>
+            <li><form action="/manage-reports" method="get"><button type="submit">Manage Reports</button></form></li>
+            <% } %>
+
         </ul>
     </div>
 </body>

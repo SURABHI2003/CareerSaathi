@@ -4,6 +4,9 @@ import pg from "pg";
 import { createTransport } from "nodemailer";
 import multer from "multer";
 import fs from 'fs';
+import * as path from 'path';
+
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 
 const app = express();
@@ -26,13 +29,14 @@ let currentStudentID;
 let message = "";
 let currentProjectID;
 let currentTechStacks;
-let currentContributors;
 let contributorDetails;
 const adminUser = "admin";
 const adminPass = "12345";
 let companyData;
 let details;
 let generatedOtp;
+let isAlumni = false;
+let isStudent = true;
 
 let mt = createTransport({
     service: "gmail",
@@ -53,25 +57,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
-async function getProjectDetails(p_id) {
-    currentProjectID = p_id;
-
-    // Fetch tech stacks and contributors concurrently
-    const [techStacksResult, contributorsResult] = await Promise.all([
-        db.query("SELECT * FROM tech_stack WHERE p_id = $1", [currentProjectID]),
-        db.query("SELECT * FROM contributer WHERE p_id = $1", [currentProjectID])
-    ]);
-
-    currentTechStacks = techStacksResult.rows;
-
-    contributorDetails = await Promise.all(contributorsResult.rows.map(async (element) => {
-        const studentData = await db.query("SELECT first_name, linkedin FROM student WHERE student_id = $1", [element.c_id]);
-        return studentData.rows;
-    }));
-
-    contributorDetails = contributorDetails.flat();
-}
-
 async function getCompanyData() {
     companyData = (await db.query("SELECT * FROM company")).rows;
 }
@@ -81,19 +66,35 @@ app.get("/", async (req, res) => {
 });
 
 app.get('/navbar', (req, res) => {
-    res.render('navbar.ejs');
+    res.render('navbar.ejs', {
+        isAdmin: isAdmin,
+        isAlumni: isAlumni,
+        isStudent: isStudent,
+    });
 });
 
 app.get('/navbar-reg', (req, res) => {
-    res.render('reg-navbar.ejs');
+    res.render('reg-navbar.ejs', {
+        isAdmin: isAdmin,
+        isStudent: isStudent,
+        isAlumni: isAlumni,
+    });
 });
 
 app.get('/landing-navbar', (req, res) => {
     res.render('landing-navbar.ejs');
 });
 
+app.get('/logout', (req, res) => {
+    res.render('landing-page.ejs');
+});
+
 app.get('/side', (req, res) => {
-    res.render('menu-student.ejs');
+    res.render('menu-student.ejs', {
+        isAlumni: isAlumni,
+        isAdmin: isAdmin,
+        isStudent: isStudent,
+    });
 });
 
 app.get('/landing-login', (req, res) => {
@@ -144,6 +145,9 @@ app.post("/home", async (req, res) => {
         if(pass == correct_pswd) {
             res.render("home.ejs");
             currentStudentID = id.toLowerCase();
+            isAlumni = false;
+            isAdmin = false;
+            isStudent = true;
             //console.log(correct_pswd);
         }
         else {
@@ -208,6 +212,24 @@ app.get("/show-project", async (req, res) => {
     }
 });
 
+async function getProjectDetails(p_id) {
+    currentProjectID = p_id;
+
+    // Fetch tech stacks and contributors concurrently
+    const [techStacksResult, contributorsResult] = await Promise.all([
+        db.query("SELECT * FROM tech_stack WHERE p_id = $1", [currentProjectID]),
+        db.query("SELECT * FROM contributer WHERE p_id = $1", [currentProjectID])
+    ]);
+
+    currentTechStacks = techStacksResult.rows;
+
+    contributorDetails = await Promise.all(contributorsResult.rows.map(async (element) => {
+        const studentData = await db.query("SELECT first_name, linkedin FROM student WHERE student_id = $1", [element.c_id]);
+        return studentData.rows;
+    }));
+
+    contributorDetails = contributorDetails.flat();
+}
 
 app.get("/add-project", async (req, res) => {
     res.render("add-project.ejs");
@@ -252,9 +274,16 @@ app.get("/admin-login", async (req, res) => {
     res.render("admin-login.ejs");
 });
 
+let isAdmin = false;
+
 app.post("/admin-login", async (req, res) => {
     if(req.body.id == adminUser && req.body.password == adminPass) {
-        res.render("home-admin.ejs");
+        isAdmin = true;
+        isStudent = false;
+        isAlumni = false;
+        res.render("home.ejs", {
+            isAdmin : isAdmin,
+        });
     }
     else {
         res.render("admin-login.ejs");
@@ -271,7 +300,6 @@ app.get("/manage-company", async (req, res) => {
 
 app.get("/add-company", async (req, res) => {
     await getCompanyData();
-    //console.log(companyData);
     res.render("add-company.ejs", {
         companies: companyData,
     });
@@ -303,27 +331,36 @@ app.get("/profile", async (req, res) => {
     //console.log(data);
     res.render("profile.ejs", {
         profileDetails: data,
+        isStudent: isStudent,
     });
 });
 
 app.get("/upgrade", async (req, res) => {
     const currentDate = new Date();
     const currentYear = currentDate.getFullYear();
-    const pass_out_year = await db.query("SELECT end_year FROM student WHERE student_id = $1", [currentStudentID]);
-    if(currentYear >= pass_out_year) {
-        res.render("upgrade.ejs");
+    const data = (await db.query("SELECT * FROM student WHERE student_id = $1", [currentStudentID]));
+    const d1 = data.rows[0];
+    const need = d1.end_year;
+    const flag = (currentYear >= need);
+    
+    if (currentYear >= need) { 
+        res.render("upgrade.ejs", { successMessage: "You have been upgraded to Alumni!" });
     }
     else {
-        console.log("It's not your passing out year still kid!")
+        res.render("upgrade.ejs", { errorMessage: "Error upgrading profile!" });
+        console.log("It's not your passing out year!")
     }
 });
 
-app.get("/send-otp", async (req, res) => {
+
+app.post("/send-otp", async (req, res) => {
     generatedOtp = Math.floor(100000 + Math.random() * 900000).toString();
+    let em = req.body.email;
+    console.log(em);
     let msg = "Your OTP is: " + generatedOtp;
     details = {
         from: "surabhi.22203@gmail.com",
-        to: "shreyasurabhi2003@gmail.com",
+        to: em,
         subject: "OTP",
         text: msg
     }
@@ -345,8 +382,11 @@ app.post("/submit-otp", async (req, res) => {
     console.log(req.body.email);
     if(req.body.otp == generatedOtp) {
         console.log(currentStudentID);
+        isAlumni = true;
+        isStudent = false;
         await db.query("INSERT INTO alumni(student_id, personal_email) VALUES ($1, $2)", [currentStudentID, req.body.email]);
         message = "Profile succesfully upgraded!"
+        res.render("home.ejs");
     }
     else {
         message = "Wrong OTP entered!"
@@ -371,7 +411,10 @@ app.post("/home-alumni", async (req, res) => {
     const data = (await db.query("SELECT student.pswd, student.student_id FROM student INNER JOIN alumni ON student.student_id = alumni.student_id WHERE alumni.personal_email = $1", [e])).rows[0];
     if(data.pswd == req.body.password) {
         currentStudentID = data.student_id;
-        res.render("home-alumni.ejs");
+        isAlumni = true;
+        isAdmin = false;
+        isStudent = false;
+        res.render("home.ejs");
     }
     else {
         res.render("alumni-login.ejs");
@@ -392,10 +435,6 @@ app.post("/update-status", async (req, res) => {
     res.render("manage-report.ejs", {
         reports: reports,
     });
-});
-
-app.get("/resources", async (req, res) => {
-    res.render("show-resource.ejs");
 });
 
 app.get("/alumni-connect", async (req, res) => {
@@ -451,13 +490,103 @@ app.post('/upload-resource', upload.array('files'), async (req, res) => {
         const query = 'INSERT INTO resource_document (resource_id, document_name, document) VALUES ($1, $2, $3)';
         await db.query(query, [id, file.originalname, fileData]); 
       }
-      
+      //res.render("show-resource.ejs");
       res.send('Files uploaded and inserted into the database successfully');
     } catch (error) {
       console.error('Error:', error);
       res.status(500).send('Internal Server Error');
     }
   });
+
+  app.get("/resources", async (req, res) => {
+
+    try {
+        const data = await db.query(`
+            SELECT 
+                student.first_name,
+                student.course,
+                student.end_year,
+                resource.role,
+                resource.company,
+                resource.experience,
+                resource.resource_id
+            FROM 
+                student
+            JOIN 
+                resource ON student.student_id = resource.student_id
+        `);
+
+        const combinedDataWithDocuments = [];
+        for (const row of data.rows) {
+            const documents = await db.query(`
+                SELECT 
+                    document,
+                    document_name
+                FROM 
+                    resource_document 
+                WHERE 
+                resource_id = $1
+            `, [row.resource_id]);
+            
+            // Extracting document names and documents from the fetched rows
+            const documentsArray = documents.rows.map(row => ({
+                document: row.document,
+                document_name: row.document_name
+            }));
+
+
+            // Combine resource data with documents
+            const combinedRow = {
+                ...row,
+                documents: documentsArray
+            };
+
+            await combinedDataWithDocuments.push(combinedRow);
+        }
+
+        console.log(combinedDataWithDocuments);
+
+        res.render("show-resource.ejs", {
+            data: combinedDataWithDocuments,
+            isAlumni: isAlumni
+        });
+    } catch (error) {
+        console.error(error);
+        throw new Error("Failed to fetch combined data with documents");
+    }
+});
+
+app.get('/download/:fileName', (req, res) => {
+    const fileName = req.params.fileName;
+    let filePath = path.join(__dirname, 'uploads', fileName); // Adjust the path to match the directory where your files are stored
+    filePath = filePath.substring(3);
+
+    try {
+                const fileContent = fs.readFileSync(filePath);
+            } catch (error) {
+                console.error('Error reading file:', error);
+            }
+    try {
+        if (fs.existsSync(filePath)) {
+            res.setHeader('Content-disposition', `attachment; filename="${fileName}"`);
+            res.setHeader('Content-type', 'application/pdf'); // Adjust the content type based on the file type
+
+            const fileStream = fs.createReadStream(filePath);
+            fileStream.pipe(res);
+        } else {
+            res.status(404).send('File not found');
+        }
+    } catch (error) {
+        console.error('Error reading file:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
+
+app.get("/add-resource", async (req, res) => {
+    res.render("add-resource.ejs");
+});
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

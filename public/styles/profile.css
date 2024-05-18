@@ -18,15 +18,13 @@ body {
     position: relative; /* Add this line */
   }
   
-  .profile h1 {
-    text-align: center;
-  }
+  
   
   .details {
     margin-top: 20px;
   }
   
-  button {
+  #upgradeBtn {
     position: absolute; /* Update this line */
     top: 20px; /* Update this line */
     right: 20px; /* Update this line */

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Display</title>
+    <style>
+        .wide-column {
+            width: calc(2.5 * 100%);
+        }
+    </style>
+    <link rel="stylesheet" href="./styles/show-resource.css"> 
+</head>
+<body>
+    <div id="header"></div>
+    <div id="side"></div>
+    <div class="body-c"></div>
+    <div class="header-container">
+        <h1 class="company-calendar-heading">Resources</h1>
+    </div>
+    <% if (isAlumni) { %>
+        <form action="/add-resource" method="get"><button class="add-resource-btn">Add Resource</button></form>
+    <% } %>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Course</th>
+                <th>Graduation Year</th>
+                <th>Role</th>
+                <th>Company</th>
+                <th class="wide-column">Selection Process & Experience</th>
+                <th>Resources</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% data.forEach(function(student) { %>
+                <tr>
+                    <td><%= student.first_name %></td>
+                    <td><%= student.course %></td>
+                    <td><%= student.end_year %></td>
+                    <td><%= student.role %></td>
+                    <td><%= student.company %></td>
+                    <td><%= student.experience %></td>
+                    <td>
+                        <ul>
+                            <% student.documents.forEach(function(document) { %>
+                                <li><a href="/download/<%= document.document_name %>"><%= document.document_name %></a></li>
+                            <% }) %>
+                        </ul>
+                    </td>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function(){
+            $.get('/navbar', function(data){
+                $('#header').html(data);
+            });
+        });
+    </script>
+     <script>
+        $(function(){
+            $.get('/side', function(data){
+                $('#side').html(data);
+            });
+        });
+    </script>
+</body>
+</html>

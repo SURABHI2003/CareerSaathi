@@ -8,8 +8,10 @@
 </head>
 <!-- ... -->
 <body>
+    <div id="header"></div>
+    <div id="side"></div>
     <div class="header-container">
-        <h1 class="company-calendar-heading">Company Calendar</h1>
+        <h1 class="company-calendar-heading">Add Company Details</h1>
     </div>
 
     <!-- Form for adding company details -->
@@ -57,9 +59,21 @@
         <% } %>
     </div>
 
-    <!-- Your existing data table goes here -->
-
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function(){
+            $.get('/navbar', function(data){
+                $('#header').html(data);
+            });
+        });
+    </script>
+     <script>
+        $(function(){
+            $.get('/side', function(data){
+                $('#side').html(data);
+            });
+        });
+    </script>
 </body>
-<!-- ... -->
 
 </html>

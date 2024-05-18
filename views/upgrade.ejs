@@ -5,17 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upgrade</title>
     <link rel="stylesheet" href="./styles/upgrade.css">
+    <style>
+        .header-container {
+    text-align: center;
+    padding: 20px;
+    background-color: #6185db;
+    color: #fff;
+    width: 100%;
+}
+
+.company-calendar-heading {
+    font-family: 'Arial', sans-serif;
+    font-size: 2.5em;
+    margin: 0;
+    letter-spacing: 2px;
+    margin-left: 100px;
+}
+    </style>
 </head>
 <body>
-    <h1>Upgrade to Alumni</h1>
-    <form action="/send-otp" method="get"><button id="otpButton">Click to Send OTP</button></form>
+    <div id="header"></div>
+    <div id="side"></div>
+    <div class="header-container">
+        <h1 class="company-calendar-heading">Upgrade to Alumni</h1>
+    </div>
+    <form action="/send-otp" method="post">
+        <input type="email" id="email" name="email" placeholder="Enter Email id to send OTP on">
+        <button class="upgrade-btn" type="submit">Click to Send OTP</button>
+    </form>
     
     <form action="/submit-otp" method="post">
         <div class="form-container">
             <input type="text" id="otp" name="otp" placeholder="Enter OTP">
-            <input type="email" id="email" name="email" placeholder="Enter Personal Email">
+            <input type="email" id="email" name="email" placeholder="Enter Personal Email id">
         </div>
-        <button id="submit-otp-email">Submit</button>
+        <button class="upgrade-btn" type="submit">Submit</button>
     </form>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function(){
+            $.get('/navbar', function(data){
+                $('#header').html(data);
+            });
+        });
+    </script>
+     <script>
+        $(function(){
+            $.get('/side', function(data){
+                $('#side').html(data);
+            });
+        });
+    </script>
 </body>
 </html>

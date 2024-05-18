@@ -1,6 +1,5 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 20px;
 }
 
 .project-table {
@@ -19,6 +18,10 @@ body {
 .project-table th {
     background-color: #6185db;
     color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
 }
 
 a {

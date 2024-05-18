@@ -33,8 +33,8 @@
     padding: 7px; /* Adjust padding for file input */
   }
   
-  button[type="submit"] {
-    background-color: #007bff;
+  .res-btn[type="submit"] {
+    background-color: rgb(27, 185, 27);
     color: #fff;
     border: none;
     padding: 10px 20px;
@@ -43,8 +43,8 @@
     font-size: 16px;
   }
   
-  button[type="submit"]:hover {
-    background-color: #0056b3;
+  .res-btn[type="submit"]:hover {
+    background-color: #27944b;
   }
   
   #selectedFiles {

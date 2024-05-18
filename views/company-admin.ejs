@@ -32,12 +32,36 @@
         .add-company-button:hover {
             background-color: #27ae60;
         }
+
+        .header-container {
+    text-align: center;
+    padding: 20px;
+    background-color: #6185db;
+    color: #fff;
+    width: 100%;
+}
+
+.company-calendar-heading {
+    font-family: 'Arial', sans-serif;
+    font-size: 2.5em;
+    margin: 0;
+    letter-spacing: 2px;
+    margin-left: 500px;
+}
+
+button {
+    margin-left: 1000px;
+}
     </style>
     <title>Data Table</title>
 </head>
 <body>
+    <div id="header"></div>
+    <div id="side"></div>
     <div class="header-container">
         <h1 class="company-calendar-heading">Company Calendar</h1>
+    </div>
+    <div >
         <!-- Add Company Details Button -->
         <form action="/add-company" method="get"><button class="add-company-button">Add Company Details</button></form>
     </div>
@@ -66,5 +90,20 @@
             <% }); %>
         </tbody>
     </table>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function(){
+            $.get('/navbar', function(data){
+                $('#header').html(data);
+            });
+        });
+    </script>
+     <script>
+        $(function(){
+            $.get('/side', function(data){
+                $('#side').html(data);
+            });
+        });
+    </script>
 </body>
 </html>

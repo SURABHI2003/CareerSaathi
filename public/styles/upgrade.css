@@ -3,12 +3,9 @@ body {
     text-align: center;
 }
 
-h1 {
-    color: #333;
-}
 
-button {
-    background-color: #007bff;
+.upgrade-btn {
+    background-color: rgb(59, 193, 59);
     color: #fff;
     padding: 10px 20px;
     border: none;
@@ -18,7 +15,7 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: rgb(55, 148, 55);
 }
 
 .form-container {
